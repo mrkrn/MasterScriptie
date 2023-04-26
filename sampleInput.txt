@@ -1,18 +1,19 @@
-Vehicle_Management
-Workshop_Management
-Notifications
-Inventory_Management
-Invoicing
-Customer_Management
-Sales
+Personal_Banking_Customer
+Web_Application
+Email_System
+Mobile_App
+SinglePage_Application
+API_Application
+Mainframe_Banking_System
+Database
 
-Vehicle_Management Workshop_Management
-Workshop_Management Notifications
-Workshop_Management Invoicing
-Inventory_Management Invoicing
-Inventory_Management Workshop_Management
-Inventory_Management Sales
-Customer_Management Notifications
-Customer_Management Workshop_Management
-Customer_Management Invoicing
-Customer_Management Sales
+Personal_Banking_Customer Web_Application
+Personal_Banking_Customer SinglePage_Application
+Personal_Banking_Customer Mobile_App
+Web_Application SinglePage_Application
+Email_System Personal_Banking_Customer
+Mobile_App API_Application
+SinglePage_Application API_Application
+API_Application Mainframe_Banking_System
+API_Application Database
+API_Application Email_System

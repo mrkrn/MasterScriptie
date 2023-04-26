@@ -119,22 +119,28 @@ def coded(graph = None):
     for i, nums in enumerate(numOld):
         partitionsOld.append([])
         for part in possibilities[nums]:
-            partitionsOld[i].append(list(zip(*part))[0])
+            partitionsOld[i].append([x[0] for x in part])
 
     for i, nums in enumerate(numNew):
         partitionsNew.append([])
         for part in possibilities[nums]:
-            partitionsNew[i].append(list(zip(*part))[0])
+            partitionsNew[i].append([x[0] for x in part])
 
     # print(partitions)
     print("---------Old Formula---------")
-    print(f'Optimal partition number(s): \n\t{numOld}\nComplexity: \n\t{round(minOld,2)}\nPartition(s):\n\t', end="")
-    print(*partitionsOld, sep='\n\t')
-    print("\n---------New Formula---------")
-    print(f'Optimal partition number(s): \n\t{numNew}\nComplexity: \n\t{round(minNew,2)}\nPartition(s):\n\t', end="")
-    print(*partitionsNew, sep='\n\t')
+    print(f'Optimal partition number(s): \n\t{numOld}\nComplexity: \n\t{round(minOld,2)}\nPartition(s):', end="")
+    for outcomes in range(len(partitionsOld)):
+        print("\n\t", end="")
+        print(*partitionsOld[outcomes], sep='\n\t', end="")
+        print("\n--------", end="")
+    print("-New Formula---------")
+    print(f'Optimal partition number(s): \n\t{numNew}\nComplexity: \n\t{round(minNew,2)}\nPartition(s):', end="")
+    for outcomes in range(len(partitionsNew)):
+        print("\n\t", end="")
+        print(*partitionsNew[outcomes], sep='\n\t', end="")
+        print("\n--------", end="")
 
-    print(f'\nOut of {len(possibilities)} possibilities')
+    print(f'\nOut of {len(possibilities)} possibilities\n')
 
     if(input("Output https://csacademy.com/app/graph_editor/ code? [y/n]: ").lower() == "y"):
         print(*list(zip(*graph))[0], sep='\n')
