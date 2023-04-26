@@ -3,8 +3,8 @@ import math
 class Boundary:
     def __init__(self, aggregates, exConn, inConn):
         self.aggregates = aggregates
-        self.exConn = exConn
-        self.inConn = inConn
+        self.exConn = exConn #External connections
+        self.inConn = inConn #Internal connections
 
 class Calc(Boundary):
     def __init__(self):
