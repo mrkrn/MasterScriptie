@@ -1,0 +1,25 @@
+CustInfo_Manage
+CustDB
+SaleInfo_Manage
+Customer
+PurchSaleDB
+Admin
+ProdDB
+Manage_Stocks
+PayDB
+TransPay_Manage
+
+CustInfo_Manage CustDB
+CustInfo_Manage PurchSaleDB
+CustInfo_Manage Customer
+CustDB SaleInfo_Manage
+SaleInfo_Manage Admin
+Customer CustInfo_Manage
+PurchSaleDB SaleInfo_Manage
+Admin ProdDB
+Admin PayDB
+ProdDB Customer
+ProdDB Manage_Stocks
+Manage_Stocks ProdDB
+PayDB TransPay_Manage
+TransPay_Manage Customer

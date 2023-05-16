@@ -1,19 +1,25 @@
-Personal_Banking_Customer
-Web_Application
-Email_System
-Mobile_App
-SinglePage_Application
-API_Application
-Mainframe_Banking_System
-Database
-
-Personal_Banking_Customer Web_Application
-Personal_Banking_Customer SinglePage_Application
-Personal_Banking_Customer Mobile_App
-Web_Application SinglePage_Application
-Email_System Personal_Banking_Customer
-Mobile_App API_Application
-SinglePage_Application API_Application
-API_Application Mainframe_Banking_System
-API_Application Database
-API_Application Email_System
+Document_Type
+Document
+Product_Instance
+Product
+Product_Type
+Name_Type
+Name
+Account
+Account_Type
+Explicitly_Delegated_Access
+Implicitly_Delegated_Access
+Digital_Address_Type
+Digital_Address
+Entity
+Entity_Relationship
+Entity_Relationship_Type
+Implicitly_Delegated_Access_Rule
+Address
+Individual
+Organization
+Department
+Assigned_Login_Method
+Address_Type
+Business_Unit
+Login_Method

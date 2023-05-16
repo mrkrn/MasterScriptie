@@ -1,18 +1,20 @@
 import calculator
 import sys
 
+
 def partition(collection):
     if len(collection) == 1:
-        yield [ collection ]
+        yield [collection]
         return
-    
+
     first = collection[0]
     for smaller in partition(collection[1:]):
         # insert `first` in each of the subpartition's subsets
         for n, subset in enumerate(smaller):
-            yield smaller[:n] + [[ first ] + subset]  + smaller[n+1:]
-        # put `first` in its own subset 
-        yield [ [ first ] ] + smaller
+            yield smaller[:n] + [[first] + subset] + smaller[n + 1 :]
+        # put `first` in its own subset
+        yield [[first]] + smaller
+
 
 def manual():
     calc = calculator.Calc()
@@ -20,7 +22,13 @@ def manual():
 
     while True:
         try:
-            output += [(int(input("\nAggregates: ")), int(input("External connections: ")), int(input("Internal connections: ")))]
+            output += [
+                (
+                    int(input("\nAggregates: ")),
+                    int(input("External connections: ")),
+                    int(input("Internal connections: ")),
+                )
+            ]
         except:
             break
         userInput = input("[Enter] to continue, [X] to remove previous: ")
@@ -36,7 +44,8 @@ def manual():
 
     return
 
-def coded(graph = None):
+
+def coded(graph=None):
     possibilities = []
     calcOld = calculator.Calc()
     calcNew = calculator.Calc()
@@ -55,15 +64,26 @@ def coded(graph = None):
     # partition([(1,2),(2,1,3,4,5,6),(3,2,6),(4,2,5,7),(5,2,4,6),(6,2,3,5,7),(7,4,6)])
     # [("a","c"),("b","d","e","h"),("c","a","d"),("d","b","c","f","j"),("e","b","h","j"),("f","d","j"),("g","h"),("h","b","e","g","i"),("i","h","j"),("j","d","e","f","i","k"),("k","j")]
     # [("Vehicle","Maintenance_Job"),("Notification","Maintenance_Job","Customer"),
-                        #    ("Maintenance_Job","Vehicle","Notification","Customer","Invoice","Product"),
-                        #    ("Customer","Notification","Maintenance_Job","Invoice","Sale"),
-                        #    ("Invoice","Maintenance_Job","Customer","Product"),
-                        #    ("Product","Maintenance_Job","Invoice","Sale"),
-                        #    ("Sale","Customer","Product")]
+    #    ("Maintenance_Job","Vehicle","Notification","Customer","Invoice","Product"),
+    #    ("Customer","Notification","Maintenance_Job","Invoice","Sale"),
+    #    ("Invoice","Maintenance_Job","Customer","Product"),
+    #    ("Product","Maintenance_Job","Invoice","Sale"),
+    #    ("Sale","Customer","Product")]
     # (1,2),(2,1,3,4),(3,2,5),(4,2,5,6),(5,3,4,6),(6,4,5,7,8,9,10),(7,6,8),(8,6,7),(9,6,10),(10,6,9,11),(11,10)
 
     if graph is None:
-        graph = [(1,2),(2,1,3),(3,2)]
+        graph = [
+            (1, 2, 6, 8),
+            (2, 1, 3, 4),
+            (3, 2, 5),
+            (4, 2, 5),
+            (5, 3, 4, 10),
+            (6, 1, 7, 10),
+            (7, 6),
+            (8, 1, 9),
+            (9, 8, 10),
+            (10, 5, 6, 9),
+        ]
 
     # Add all possible partitions to possibilities
     for part in partition(graph):
@@ -74,9 +94,9 @@ def coded(graph = None):
     for n, i in enumerate(possibilities):
         # For each autonomy boundary in partition i
         for j in i:
-            exConn = 0 # Num connections going over boundary j
-            inConn = 0 # Num connections within boundary j
-            edges = {} # Dict to prevent internal connections being counted twice
+            exConn = 0  # Num connections going over boundary j
+            inConn = 0  # Num connections within boundary j
+            edges = {}  # Dict to prevent internal connections being counted twice
             # For each node in autonomy boundary j
             for node in j:
                 # For each tuple element in node except first(node id)
@@ -88,13 +108,13 @@ def coded(graph = None):
                         edges[(tupleI, node[0])] = 1
                         inConn += 1
             # print(f'Boundary: {list(zip(*j))[0]}, exConn: {exConn}, inConn: {inConn}')
-            
+
             # print(f'Nodes in subsubset: {list(zip(*j))[0]}')
             # print(f'Connections: {connections}')
 
-        # Old formula => discard internal connections
+            # Old formula => discard internal connections
             calcOld.addBoundary(len(j), exConn, 0)
-        # New formula => track internal connections
+            # New formula => track internal connections
             calcNew.addBoundary(len(j), exConn, inConn)
         # print("-------------------")
 
@@ -109,13 +129,13 @@ def coded(graph = None):
             numNew = [n]
         elif calcNew.Result() == minNew:
             numNew.append(n)
-        
-        calcOld.reset()        
-        calcNew.reset()        
-        
+
+        calcOld.reset()
+        calcNew.reset()
+
     partitionsOld = []
     partitionsNew = []
-    
+
     for i, nums in enumerate(numOld):
         partitionsOld.append([])
         for part in possibilities[nums]:
@@ -128,34 +148,44 @@ def coded(graph = None):
 
     # print(partitions)
     print("---------Old Formula---------")
-    print(f'Optimal partition number(s): \n\t{numOld}\nComplexity: \n\t{round(minOld,2)}\nPartition(s):', end="")
+    print(
+        f"Optimal partition number(s): \n\t{numOld}\nComplexity: \n\t{round(minOld,2)}\nPartition(s):",
+        end="",
+    )
     for outcomes in range(len(partitionsOld)):
         print("\n\t", end="")
-        print(*partitionsOld[outcomes], sep='\n\t', end="")
+        print(*partitionsOld[outcomes], sep="\n\t", end="")
         print("\n--------", end="")
     print("-New Formula---------")
-    print(f'Optimal partition number(s): \n\t{numNew}\nComplexity: \n\t{round(minNew,2)}\nPartition(s):', end="")
+    print(
+        f"Optimal partition number(s): \n\t{numNew}\nComplexity: \n\t{round(minNew,2)}\nPartition(s):",
+        end="",
+    )
     for outcomes in range(len(partitionsNew)):
         print("\n\t", end="")
-        print(*partitionsNew[outcomes], sep='\n\t', end="")
+        print(*partitionsNew[outcomes], sep="\n\t", end="")
         print("\n--------", end="")
 
-    print(f'\nOut of {len(possibilities)} possibilities\n')
+    print(f"\nOut of {len(possibilities)} possibilities\n")
 
-    if(input("Output https://csacademy.com/app/graph_editor/ code? [y/n]: ").lower() == "y"):
-        print(*list(zip(*graph))[0], sep='\n')
+    if (
+        input("Output https://csacademy.com/app/graph_editor/ code? [y/n]: ").lower()
+        == "y"
+    ):
+        print(*list(zip(*graph))[0], sep="\n")
         print()
         for node in graph:
             for edge in node[1:]:
                 print(node[0], edge)
-    
+
     return
+
 
 def fileInput(fileName):
     tempFile = open(fileName, "r")
     node2edge = False
     edges = {}
-    
+
     for node in tempFile.readlines():
         if node == "\n":
             node2edge = True
@@ -177,36 +207,35 @@ def fileInput(fileName):
         graph.append(tuple([key, *values]))
 
     # print(graph)
-    return graph    
+    return graph
 
-    return
 
 def main():
-    if("--help" in sys.argv or len(sys.argv) < 2):
-        print("""Command usage: python3 main.py [OPTION]
+    if "--help" in sys.argv or len(sys.argv) < 2:
+        print(
+            """Command usage: python3 main.py [OPTION]
     --help,         Shows this screen.
     -f filename,    Use a file as input for system.
     -c,             Use a hardcoded graph representation.
     -m,             Use manual input for graph.
-    """)
+    """
+        )
         return
 
     for i in range(len(sys.argv)):
-        if(sys.argv[i] == "-f"):
-            if((i+1) < len(sys.argv) and open(sys.argv[i+1],"r")):
-                coded(fileInput(sys.argv[i+1]))
+        if sys.argv[i] == "-f":
+            if (i + 1) < len(sys.argv) and open(sys.argv[i + 1], "r"):
+                coded(fileInput(sys.argv[i + 1]))
                 return
             else:
                 raise NameError("No input file given")
-        if(sys.argv[i] == "-c"):
+        if sys.argv[i] == "-c":
             coded()
             return
-        if(sys.argv[i] == "-m"):
+        if sys.argv[i] == "-m":
             manual()
             return
-    
-    
-    
+
 
 if __name__ == "__main__":
     main()
