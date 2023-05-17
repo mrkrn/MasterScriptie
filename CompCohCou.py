@@ -25,6 +25,26 @@ def main():
         [10, 11, 12, 13],
     ]
 
+    # [1],
+    # [2,3],
+    # [4,5,6,7,8],
+    # [9,10,11,12],
+
+    # [1],
+    # [2,3],
+    # [4,5,6,7],
+    # [8,9,10,11],
+
+    # [1],
+    # [2,3],
+    # [4,5,6],
+    # [7,8,9,10],
+
+    # [1],
+    # [2,3],
+    # [4,5,6],
+    # [7,8],
+
     GenComp = complexity.Complexity(graph, partition)
     GenComp.pL()
 
@@ -69,10 +89,11 @@ def main():
         [7, 8],
     ]
 
-    CouplinComp = complexity.Complexity(graph, partition)
+    CouplinComp = complexity.Coupling(graph, partition)
     CouplinComp.pL()
 
     CouplinComp.print()
+
     subGraphlist = []
     for i in range(0, len(CouplinComp.matrix)):
         subGraphlist += [CouplinComp.subgraphMatrix(i)]
@@ -85,6 +106,33 @@ def main():
     print(
         "\nCoupling = " + str(round(CouplinComp.coupComplexity(subGraphlist), 1)) + "\n"
     )
+
+    graph = [
+        # [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], #1
+        [1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  # 2
+        [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],  # 3
+        [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],  # 4
+        [0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],  # 5
+        [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],  # 6
+        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0],  # 7
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0],  # 8
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],  # 9
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0],  # 10
+        [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0],  # 11
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],  # 12
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],  # 13
+        # [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]
+    partition = [
+        [1],
+        [2, 3],
+        [4, 5, 6],
+        [7, 8],
+    ]
+
+    CohesionComp = complexity.Cohesion(graph, partition)
+
+    CohesionComp.completeMatrix(26)
     return
 
 

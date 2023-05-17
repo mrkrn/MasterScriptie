@@ -91,7 +91,7 @@ class Complexity:
     def genComplexity(self, nodeMatrix, overalMatrix=None):
         if overalMatrix == None:
             overalMatrix = self.proportions
-        # nodeMatrix are connectivity matrices of individual nodes
+        # nodeMatrix = array of all connectivity matrices of individual nodes
         total = 0
         for i in range(1, len(nodeMatrix)):
             total += self.sizeComplexity(nodeMatrix[i])
@@ -101,5 +101,37 @@ class Complexity:
         # print(*nodeMatrix[i], sep="\n")
         # print()
 
-    def coupComplexity(self, nodeMatrix):
-        return self.genComplexity(nodeMatrix)
+
+class Coupling(Complexity):
+    def __init__(self, graph=[], partition=[]):
+        super().__init__(graph, partition)
+
+    def coupComplexity(self, interMatrix):
+        return self.genComplexity(interMatrix)
+
+
+class Cohesion(Complexity):
+    def __init__(self, graph=[], partition=[]):
+        super().__init__(graph, partition)
+
+    def completeMatrix(self, nodesNum):
+        edgeMatrix = []
+        for i in range(0, nodesNum):
+            edgeMatrix += [[0] * round((nodesNum * (nodesNum - 1)) / 2)]
+
+        startColumn = 0
+        edgeCount = nodesNum - 1
+        for index, row in enumerate(edgeMatrix):
+            counterRow = index + 1
+            for i in range(startColumn, startColumn + edgeCount):
+                edgeMatrix[index][i] = 1
+                edgeMatrix[counterRow][i] = 1
+                counterRow += 1
+            startColumn += edgeCount
+            edgeCount -= 1
+        print(*edgeMatrix, sep="\n")
+        print()
+        return edgeMatrix
+
+    def cohComplexity(self, intraMatrix, completeMatrix):
+        return self.genComplexity(intraMatrix) / self.genComplexity(completeMatrix)
