@@ -63,20 +63,94 @@ class Complexity:
         # print("=" * 20 + "subgraphMatrix" + "=" * 20)
         return subGraph
 
-    # def purgeNodes(self, proportions):
-    #     for index, i in enumerate(proportions):
-    #         for j in i[1]:
-    #             print(j)
-    #             if j == 1:
-    #                 break
-    #         if j == 0:
-    #             proportions.pop(index)
-    #             print("Emtpy row")
-    #             for part, k in enumerate(self.partitions):
-    #                 if index in k:
-    #                     print(self.partitions)
-    #                     self.partitions[part].remove(index)
-    #         print()
+    def intraMatrix(self, proportionMatrix=None, partitions=None):
+        if proportionMatrix == None:
+            proportionMatrix = copy.deepcopy(self.proportions)
+        if partitions == None:
+            partitions = copy.deepcopy(self.partitions)
+
+        for part in range(1, len(partitions)):
+            # print(
+            #     *(proportionMatrix[partitions[part][0] : (partitions[part][-1] + 1)]),
+            #     sep="\n",
+            # )
+            # print()
+            # if len(partitions[part]) == 1:
+            #     continue
+            for edgeBitindex in range(0, len(proportionMatrix[partitions[part][0]][1])):
+                # print(edgeBitindex)
+                total = 0
+                for dist in proportionMatrix[
+                    partitions[part][0] : (partitions[part][-1] + 1)
+                ]:
+                    if dist[1][edgeBitindex] == 1:
+                        total += 1
+
+                if total != 2:
+                    for dist in proportionMatrix[
+                        partitions[part][0] : (partitions[part][-1] + 1)
+                    ]:
+                        dist[1][edgeBitindex] = 0
+
+            # print(
+            #     *(proportionMatrix[partitions[part][0] : (partitions[part][-1] + 1)]),
+            #     sep="\n",
+            # )
+        return proportionMatrix
+
+    def interMatrix(self, proportionMatrix=None):
+        if proportionMatrix == None:
+            proportionMatrix = copy.deepcopy(self.proportions)
+
+        intraMatrix = self.intraMatrix()
+
+        for edgebit in range(0, len(proportionMatrix[0][1])):
+            for proportion, x in enumerate(proportionMatrix):
+                if intraMatrix[proportion][1][edgebit] == 1:
+                    proportionMatrix[proportion][1][edgebit] = 0
+
+        return proportionMatrix
+
+    def returnMatrix(self, proportionMatrix=None):
+        if proportionMatrix == None:
+            proportionMatrix = copy.deepcopy(self.proportions)
+
+        if proportionMatrix[0][0] == 0:
+            return list(map(list, zip(*proportionMatrix)))[1][1:]
+
+        return list(map(list, zip(*proportionMatrix)))[1]
+
+    def purgeNodes(self, proportions, partitions):
+        returnProportions = copy.deepcopy(proportions)
+        returnPartitions = copy.deepcopy(partitions)
+
+        for proportion in proportions:
+            for edgebit in proportion[1]:
+                if edgebit == 1:
+                    break
+            if edgebit == 0 and proportion[0] != 0:
+                # print("Empty row", proportion)
+                remove = False
+                for i, part in enumerate(returnPartitions):
+                    for j, node in enumerate(part):
+                        if remove and node != -1:
+                            returnPartitions[i][j] -= 1
+                        if partitions[i][j] == proportion[0]:
+                            remove = True
+                            returnPartitions[i][j] = -1
+
+        # +[-1] because env variable is always 0
+        flattenPartitions = [-1] + [x for sublist in returnPartitions for x in sublist]
+        for i in range(0, len(flattenPartitions)):
+            if flattenPartitions[i] == -1:
+                returnProportions[i][0] = -1
+
+        for i in range(0, len(returnPartitions)):
+            returnPartitions[i] = list(filter(lambda x: x != -1, returnPartitions[i]))
+
+        returnProportions = [x for x in returnProportions if (x[0] != -1)]
+
+        return (returnProportions, returnPartitions)
 
     def sizeComplexity(self, proportionMatrix=None):
         if proportionMatrix == None:
@@ -129,8 +203,8 @@ class Cohesion(Complexity):
                 counterRow += 1
             startColumn += edgeCount
             edgeCount -= 1
-        print(*edgeMatrix, sep="\n")
-        print()
+        # print(*edgeMatrix, sep="\n")
+        # print()
         return edgeMatrix
 
     def cohComplexity(self, intraMatrix, completeMatrix):
