@@ -1,54 +1,59 @@
 import complexity
 
 
-def main():
+def main(part=None):
+    # graph = [
+    #     [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0],
+    #     [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+    #     # [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    # ]
+    # partition = [
+    #     [1],
+    #     [2, 3, 4],
+    #     [5, 6, 7, 8, 9],
+    #     [10, 11, 12, 13],
+    # ]
+
+    # =============Arch1=============
+    # graph = [
+    #     [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+    #     [0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+    #     [0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0],
+    #     [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1],
+    #     [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1],
+    # ]
+
+    # partition = [[1, 2], [3, 4], [5, 6]]
+
+    # =============Arch2=============
     graph = [
-        [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0],
-        [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
-        # [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    ]
-    partition = [
-        [1],
-        [2, 3, 4],
-        [5, 6, 7, 8, 9],
-        [10, 11, 12, 13],
+        [1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 1, 1, 0, 0, 0, 0, 0],
+        [0, 0, 1, 1, 0, 1, 1, 0, 0, 0],
+        [0, 0, 0, 0, 1, 1, 0, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
     ]
 
-    # [1],
-    # [2, -1, 4],
-    # [5, 6, 7, -1, 9],
-    # [10, 11, -1, -1],
-
-    # [1],
-    # [2,3],
-    # [4,5,6,7,8],
-    # [9,10,11,12],
-
-    # [1],
-    # [2,3],
-    # [4,5,6,7],
-    # [8,9,10,11],
-
-    # [1],
-    # [2,3],
-    # [4,5,6],
-    # [7,8,9,10],
-
-    # [1],
-    # [2,3],
-    # [4,5,6],
-    # [7,8],
+    if part == None:
+        partition = [[1, 2, 3, 4, 5, 6, 7, 8]]
+    else:
+        partition = part
+    # partition = [[1, 3, 4, 5], [2], [6], [7, 8]]
 
     GenComp = complexity.Complexity(graph, partition)
     GenComp.pL()
@@ -103,75 +108,91 @@ def main():
     #     [10, 11],
     # ]
 
-    # CouplinComp = complexity.Coupling(graph, partition)
-    # x, y = GenComp.purgeNodes(GenComp.interMatrix(), partition)
-    # x = GenComp.returnMatrix(x)
-    # print(*x, y, sep="\n")
+    if len(GenComp.partitions) != 2:
+        CouplinComp = complexity.Coupling(graph, partition)
+        # x, y = GenComp.purgeNodes(GenComp.interMatrix(), partition)
+        # x = GenComp.returnMatrix(x)
+        # print(*x, y, sep="\n")
 
-    couplinGraph, couplinPartition = GenComp.purgeNodes(
-        GenComp.interMatrix(), partition
-    )
-    couplinGraph = GenComp.returnMatrix(couplinGraph)
+        couplinGraph, couplinPartition = GenComp.purgeNodes(
+            GenComp.interMatrix(), partition
+        )
+        couplinGraph = GenComp.returnMatrix(couplinGraph)
 
-    CouplinComp = complexity.Coupling(couplinGraph, couplinPartition)
+        CouplinComp = complexity.Coupling(couplinGraph, couplinPartition)
 
-    CouplinComp.pL()
-    # CouplinComp.print()
+        CouplinComp.pL()
+        # CouplinComp.print()
 
-    subGraphlist = []
-    for i in range(0, len(CouplinComp.matrix)):
-        subGraphlist += [CouplinComp.subgraphMatrix(i)]
+        subGraphlist = []
+        for i in range(0, len(CouplinComp.matrix)):
+            subGraphlist += [CouplinComp.subgraphMatrix(i)]
 
-    for j in subGraphlist:
-        CouplinComp.pL(j)
-        # print(*j, sep="\n")
-        # print()
+        for j in subGraphlist:
+            CouplinComp.pL(j)
+            # print(*j, sep="\n")
+            # print()
 
-    print(
-        "\nCoupling = " + str(round(CouplinComp.coupComplexity(subGraphlist), 1)) + "\n"
-    )
+        print(
+            "\nCoupling = "
+            + str(round(CouplinComp.coupComplexity(subGraphlist), 1))
+            + "\n"
+        )
 
-    cohesionGraph, cohesionPartition = GenComp.purgeNodes(
-        GenComp.intraMatrix(), partition
-    )
-    cohesionGraph = GenComp.returnMatrix(cohesionGraph)
-    # print(*cohesionGraph, cohesionPartition, sep="\n", end="\n\n")
+    if len(partition) != partition[-1][-1]:
+        cohesionGraph, cohesionPartition = GenComp.purgeNodes(
+            GenComp.intraMatrix(), partition
+        )
+        cohesionGraph = GenComp.returnMatrix(cohesionGraph)
+        # print(*cohesionGraph, cohesionPartition, sep="\n", end="\n\n")
 
-    CohesionComp = complexity.Cohesion(cohesionGraph, cohesionPartition)
+        CohesionComp = complexity.Cohesion(cohesionGraph, cohesionPartition)
 
-    CohesionComp.pL()
-    # CohesionComp.print()
+        CohesionComp.pL()
+        # CohesionComp.print()
 
-    # print(len(GenComp.matrix))
-    completeComp = complexity.Cohesion(
-        CohesionComp.completeMatrix(len(GenComp.matrix)), partition
-    )
+        # print(len(GenComp.matrix))
+        completeComp = complexity.Cohesion(
+            CohesionComp.completeMatrix(len(GenComp.matrix)), partition
+        )
 
-    completeComp.pL()
-    # completeComp.print()
+        completeComp.pL()
+        # completeComp.print()
 
-    cohesionSubgraph = []
-    for i in range(0, len(CohesionComp.matrix)):
-        cohesionSubgraph += [CohesionComp.subgraphMatrix(i)]
+        cohesionSubgraph = []
+        for i in range(0, len(CohesionComp.matrix)):
+            cohesionSubgraph += [CohesionComp.subgraphMatrix(i)]
 
-    for j in cohesionSubgraph:
-        CohesionComp.pL(j)
+        for j in cohesionSubgraph:
+            CohesionComp.pL(j)
 
-    completeSubgraph = []
-    for i in range(0, len(completeComp.matrix)):
-        completeSubgraph += [completeComp.subgraphMatrix(i)]
+        completeSubgraph = []
+        for i in range(0, len(completeComp.matrix)):
+            completeSubgraph += [completeComp.subgraphMatrix(i)]
 
-    for j in completeSubgraph:
-        completeComp.pL(j)
+        for j in completeSubgraph:
+            completeComp.pL(j)
 
-    print(
-        "\nCohesion = "
-        + str(round(CohesionComp.cohComplexity(cohesionSubgraph, completeSubgraph), 2))
-        + "\n"
-    )
+        print(
+            "\nCohesion = "
+            + str(
+                round(CohesionComp.cohComplexity(cohesionSubgraph, completeSubgraph), 2)
+            )
+            + "\n"
+        )
 
     return
 
 
 if __name__ == "__main__":
-    main()
+    partitions = [
+        [[1, 2, 3, 4, 5, 6, 7, 8]],
+        [[1, 2, 3], [4, 5, 6, 7, 8]],
+        [[1, 2, 3, 4], [5, 6, 7, 8]],
+        [[1, 2, 3, 4], [5, 6], [7, 8]],
+        [[1], [2], [3], [4], [5], [6], [7], [8]],
+        [[1, 3, 4, 5], [2], [6], [7, 8]],
+    ]
+    for part in partitions:
+        main(part)
+        print("=" * 30)
