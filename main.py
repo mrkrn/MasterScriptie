@@ -26,7 +26,7 @@ def manual():
                 (
                     int(input("\nAggregates: ")),
                     int(input("External connections: ")),
-                    int(input("Internal connections: ")),
+                    # int(input("Internal connections: ")),
                 )
             ]
         except:
@@ -36,10 +36,10 @@ def manual():
             output.pop()
 
     for item in output:
-        calc.addBoundary(item[0], item[1], item[2])
+        calc.addBoundary(item[0], item[1], 0)
 
     calc.showList()
-    print(calc.Result())
+    print(round(calc.Result(), 2))
     calc.reset()
 
     return
