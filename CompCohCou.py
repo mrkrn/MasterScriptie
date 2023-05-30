@@ -21,28 +21,28 @@ def main(part=None):
     # partition = [[1], [2, 3, 4], [5, 6, 7, 8, 9], [10, 11, 12, 13]]
 
     # =============Arch1=============
-    # graph = [
-    #     [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    #     [1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
-    #     [0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0],
-    #     [0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0],
-    #     [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1],
-    #     [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1],
-    # ]
+    graph = [
+        [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],
+        [0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0],
+        [0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0],
+        [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1],
+        [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1],
+    ]
 
     # partition = [[1, 2], [3, 4], [5, 6]]
 
     # =============Arch2=============
-    graph = [
-        [1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 1, 0, 1, 1, 0, 0, 0, 0, 0],
-        [0, 0, 1, 1, 0, 1, 1, 0, 0, 0],
-        [0, 0, 0, 0, 1, 1, 0, 1, 1, 0],
-        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-        [0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
-        [0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
-    ]
+    # graph = [
+    #     [1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+    #     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    #     [0, 1, 0, 1, 1, 0, 0, 0, 0, 0],
+    #     [0, 0, 1, 1, 0, 1, 1, 0, 0, 0],
+    #     [0, 0, 0, 0, 1, 1, 0, 1, 1, 0],
+    #     [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    #     [0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+    #     [0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+    # ]
 
     if part == None:
         partition = [[1], [2, 3, 4], [5, 6, 7, 8, 9], [10, 11, 12, 13]]
@@ -181,23 +181,61 @@ def main(part=None):
 
 if __name__ == "__main__":
     LowestCoupling = None
-    HighestCohesion = [0]
+    HighestCohesion = None
+
+    CouplingRanking = []
+    CohesionRanking = []
+
     partitions = [
-        [[1, 2, 3, 4, 5, 6, 7, 8]],
-        [[1, 2, 3], [4, 5, 6, 7, 8]],
-        [[1, 2, 3, 4], [5, 6, 7, 8]],
-        [[1, 2, 3, 4], [5, 6], [7, 8]],
-        [[1], [2], [3], [4], [5], [6], [7], [8]],
-        [[1, 3, 4, 5], [2], [6], [7, 8]],
+        [[1, 2, 3, 4, 5, 6]],
+        [[1, 2, 3], [4, 5, 6]],
+        [[1, 2], [3, 4], [5, 6]],
+        [[1], [2], [3], [4], [5], [6]],
+        [[1, 2, 3], [4, 5], [6]],
     ]
+    # [[1, 2, 3, 4, 5, 6, 7, 8]],
+    # [[1, 2, 3], [4, 5, 6, 7, 8]],
+    # [[1, 2, 3, 4], [5, 6, 7, 8]],
+    # [[1, 2, 3, 4], [5, 6], [7, 8]],
+    # [[1], [2], [3], [4], [5], [6], [7], [8]],
+    # [[1, 3, 4, 5], [2], [6], [7, 8]],
     # partitions = [[[1, 2, 3, 4, 5, 6]], [[1], [2], [3], [4], [5], [6]]]
     for part in partitions:
         coupling, cohesion = main(part)
+        partLabel = f"Partition {partitions.index(part) + 1}: " + str(part)
+        if len(CouplingRanking) == 0:
+            CouplingRanking = [(coupling, partLabel)]
+            CohesionRanking = [(cohesion, partLabel)]
+        else:
+            for i in range(0, len(CouplingRanking)):
+                if CouplingRanking[i][0] == None or CouplingRanking[i][0] > coupling:
+                    CouplingRanking.insert(
+                        i,
+                        (coupling, partLabel),
+                    )
+                    break
+                if i == len(CouplingRanking) - 1:
+                    CouplingRanking += [(coupling, partLabel)]
+
+            for j in range(0, len(CohesionRanking)):
+                if CohesionRanking[j][0] < cohesion:
+                    CohesionRanking.insert(
+                        j,
+                        (cohesion, partLabel),
+                    )
+                    break
+                if j == len(CohesionRanking) - 1:
+                    CohesionRanking += [(cohesion, partLabel)]
+
         if coupling != None:
             if LowestCoupling == None or coupling < LowestCoupling[0][0]:
                 LowestCoupling = [(coupling, part)]
             elif coupling == LowestCoupling[0][0]:
                 LowestCoupling += [(coupling, part)]
+        if HighestCohesion == None or cohesion > HighestCohesion[0][0]:
+            HighestCohesion = [(cohesion, part)]
+        elif cohesion == HighestCohesion[0][0]:
+            HighestCohesion += [(cohesion, part)]
         print("=" * 30)
 
     if coupling != None:
@@ -210,3 +248,33 @@ if __name__ == "__main__":
             end="",
         )
         print(*[x[1] for x in LowestCoupling], sep="\n\t")
+
+    if cohesion != None:
+        # print(LowestCoupling)
+
+        print(
+            "Highest Cohesion value: \n\t"
+            + str(HighestCohesion[0][0])
+            + "\nIn partition(s): \n\t",
+            end="",
+        )
+        print(*[x[1] for x in HighestCohesion], sep="\n\t")
+
+    print("\nCoupling Ranking")
+    print(
+        "\n".join(
+            [
+                f"[{i}]\tComplexity: {str(j[0]):8s}{j[1]}"
+                for i, j in enumerate(CouplingRanking, start=1)
+            ]
+        )
+    )
+    print("\nCohesion Ranking")
+    print(
+        "\n".join(
+            [
+                f"[{i}]\tComplexity: {str(j[0]):7s}{j[1]}"
+                for i, j in enumerate(CohesionRanking, start=1)
+            ]
+        )
+    )
