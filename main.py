@@ -17,7 +17,8 @@ def partition(collection):
 
 
 def manual():
-    calc = calculator.Calc()
+    newForm = calculator.Calc()
+    clusterComp = calculator.Calc()
     output = []
 
     while True:
@@ -26,7 +27,7 @@ def manual():
                 (
                     int(input("\nAggregates: ")),
                     int(input("External connections: ")),
-                    # int(input("Internal connections: ")),
+                    int(input("Internal connections: ")),
                 )
             ]
         except:
@@ -36,11 +37,17 @@ def manual():
             output.pop()
 
     for item in output:
-        calc.addBoundary(item[0], item[1], 0)
+        newForm.addBoundary(item[0], item[1], 0)
+        clusterComp.addBoundary(item[0], item[1], item[2])
 
-    calc.showList()
-    print(round(calc.Result(), 2))
-    calc.reset()
+    newForm.showList()
+    print(f"New formula complexity: {round(newForm.newFormulaResult(), 2)}")
+
+    clusterComp.showList()
+    print(f"Cluster complexity: {round(clusterComp.clusterFormulaResult(), 2)}")
+
+    newForm.reset()
+    clusterComp.reset()
 
     return
 
@@ -70,20 +77,14 @@ def coded(graph=None):
     #    ("Product","Maintenance_Job","Invoice","Sale"),
     #    ("Sale","Customer","Product")]
     # (1,2),(2,1,3,4),(3,2,5),(4,2,5,6),(5,3,4,6),(6,4,5,7,8,9,10),(7,6,8),(8,6,7),(9,6,10),(10,6,9,11),(11,10)
+    # (1, 2, 6, 8),(2, 1, 3, 4),(3, 2, 5),(4, 2, 5),(5, 3, 4, 10),(6, 1, 7, 10),(7, 6),(8, 1, 9),(9, 8, 10),(10, 5, 6, 9)
 
+    # fmt: off
     if graph is None:
         graph = [
-            (1, 2, 6, 8),
-            (2, 1, 3, 4),
-            (3, 2, 5),
-            (4, 2, 5),
-            (5, 3, 4, 10),
-            (6, 1, 7, 10),
-            (7, 6),
-            (8, 1, 9),
-            (9, 8, 10),
-            (10, 5, 6, 9),
+            (1, 2, 6, 8),(2, 1, 3, 4),(3, 2, 5),(4, 2, 5),(5, 3, 4, 10),(6, 1, 7, 10),(7, 6),(8, 1, 9),(9, 8, 10),(10, 5, 6, 9)
         ]
+    # fmt: on
 
     # Add all possible partitions to possibilities
     for part in partition(graph):
@@ -118,16 +119,16 @@ def coded(graph=None):
             calcNew.addBoundary(len(j), exConn, inConn)
         # print("-------------------")
 
-        if minOld == None or calcOld.Result() < minOld:
-            minOld = calcOld.Result()
+        if minOld == None or calcOld.newFormulaResult() < minOld:
+            minOld = calcOld.newFormulaResult()
             numOld = [n]
-        elif calcOld.Result() == minOld:
+        elif calcOld.newFormulaResult() == minOld:
             numOld.append(n)
 
-        if minNew == None or calcNew.Result() < minNew:
-            minNew = calcNew.Result()
+        if minNew == None or calcNew.newFormulaResult() < minNew:
+            minNew = calcNew.newFormulaResult()
             numNew = [n]
-        elif calcNew.Result() == minNew:
+        elif calcNew.newFormulaResult() == minNew:
             numNew.append(n)
 
         calcOld.reset()
