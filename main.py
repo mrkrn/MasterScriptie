@@ -81,17 +81,68 @@ def coded(graph=None):
 
     # fmt: off
     if graph is None:
-        graph = [
-            (1, 2, 6, 8),(2, 1, 3, 4),(3, 2, 5),(4, 2, 5),(5, 3, 4, 10),(6, 1, 7, 10),(7, 6),(8, 1, 9),(9, 8, 10),(10, 5, 6, 9)
-        ]
-    # fmt: on
+        graph = [(1,2,3,4),(2,1),(3,1,4,5),(4,1,3,5,7),(5,3,4,6,8),(6,5),(7,4,8),(8,5,7)]
+        # graph = [
+        #     ("Vehicle","Maintenance_Job"),("Notification","Maintenance_Job","Customer"),
+        #     ("Maintenance_Job","Vehicle","Notification","Customer","Invoice","Product"),
+        #     ("Customer","Notification","Maintenance_Job","Invoice","Sale"),
+        #     ("Invoice","Maintenance_Job","Customer","Product"),
+        #     ("Product","Maintenance_Job","Invoice","Sale"),
+        #     ("Sale","Customer","Product")
+        # ]
+        # graph = [(1,2,3,4,5,6),(2,1,3,4,5,6),(3,1,2,4,5,6),(4,1,2,3,5,6),(5,1,2,3,4,6),(6,1,2,3,4,5)]
 
     # Add all possible partitions to possibilities
-    for part in partition(graph):
-        # print(part)
-        possibilities += [part]
+    # for part in partition(graph):
+    #     # print(part)
+    #     possibilities += [part]
+
+    possibilities = [
+    #     [[("Vehicle","Maintenance_Job"),("Notification","Maintenance_Job","Customer"),
+    #         ("Maintenance_Job","Vehicle","Notification","Customer","Invoice","Product"),
+    #         ("Customer","Notification","Maintenance_Job","Invoice","Sale"),
+    #         ("Invoice","Maintenance_Job","Customer","Product"),
+    #         ("Product","Maintenance_Job","Invoice","Sale"),
+    #         ("Sale","Customer","Product")]],
+    #     [[("Vehicle","Maintenance_Job"),("Notification","Maintenance_Job","Customer"),
+    #         ("Maintenance_Job","Vehicle","Notification","Customer","Invoice","Product")],[("Customer","Notification","Maintenance_Job","Invoice","Sale"),
+    #         ("Invoice","Maintenance_Job","Customer","Product"),
+    #         ("Product","Maintenance_Job","Invoice","Sale"),
+    #         ("Sale","Customer","Product")]],
+    #     [[("Vehicle","Maintenance_Job"),("Notification","Maintenance_Job","Customer")],[("Notification","Maintenance_Job","Customer"),
+    #         ("Maintenance_Job","Vehicle","Notification","Customer","Invoice","Product"),
+    #         ("Customer","Notification","Maintenance_Job","Invoice","Sale"),
+    #         ("Invoice","Maintenance_Job","Customer","Product")],[("Product","Maintenance_Job","Invoice","Sale"),
+    #         ("Sale","Customer","Product")]],
+    #     [[("Vehicle","Maintenance_Job"),
+    #         ("Maintenance_Job","Vehicle","Notification","Customer","Invoice","Product"),
+    #         ("Invoice","Maintenance_Job","Customer","Product")],[("Notification","Maintenance_Job","Customer"),
+    #         ("Customer","Notification","Maintenance_Job","Invoice","Sale")],[("Product","Maintenance_Job","Invoice","Sale"),
+    #         ("Sale","Customer","Product")]],
+    #     [[("Vehicle","Maintenance_Job")],[("Notification","Maintenance_Job","Customer")],[("Maintenance_Job","Vehicle","Notification","Customer","Invoice","Product")],[("Customer","Notification","Maintenance_Job","Invoice","Sale")],[("Invoice","Maintenance_Job","Customer","Product")],[("Product","Maintenance_Job","Invoice","Sale")],[("Sale","Customer","Product")]],
+    #     [[("Vehicle","Maintenance_Job")],[("Notification","Maintenance_Job","Customer")],[("Maintenance_Job","Vehicle","Notification","Customer","Invoice","Product"),
+    #         ("Invoice","Maintenance_Job","Customer","Product")],[("Customer","Notification","Maintenance_Job","Invoice","Sale")],[("Product","Maintenance_Job","Invoice","Sale"),
+    #         ("Sale","Customer","Product")]]
+
+    [[(1,2,3,4),(2,1),(3,1,4,5),(4,1,3,5,7),(5,3,4,6,8),(6,5),(7,4,8),(8,5,7)]],
+    [[(1,2,3,4),(2,1),(3,1,4,5)],[(4,1,3,5,7),(5,3,4,6,8),(6,5),(7,4,8),(8,5,7)]],
+    [[(1,2,3,4),(2,1),(3,1,4,5),(4,1,3,5,7)],[(5,3,4,6,8),(6,5),(7,4,8),(8,5,7)]],
+    [[(1,2,3,4),(2,1),(3,1,4,5),(4,1,3,5,7)],[(5,3,4,6,8),(6,5)],[(7,4,8),(8,5,7)]],
+    [[(1,2,3,4)],[(2,1)],[(3,1,4,5)],[(4,1,3,5,7)],[(5,3,4,6,8)],[(6,5)],[(7,4,8)],[(8,5,7)]],
+    [[(1,2,3,4),(3,1,4,5),(4,1,3,5,7),(5,3,4,6,8)],[(2,1)],[(6,5)],[(7,4,8),(8,5,7)]]
+
+    #   [[(1,2,3,4,5,6),(2,1,3,4,5,6),(3,1,2,4,5,6),(4,1,2,3,5,6),(5,1,2,3,4,6),(6,1,2,3,4,5)]],
+    #   [[(1,2,3,4,5,6),(2,1,3,4,5,6),(3,1,2,4,5,6)],[(4,1,2,3,5,6),(5,1,2,3,4,6),(6,1,2,3,4,5)]],
+    #   [[(1,2,3,4,5,6),(2,1,3,4,5,6)],[(3,1,2,4,5,6),(4,1,2,3,5,6)],[(5,1,2,3,4,6),(6,1,2,3,4,5)]],
+    #   [[(1,2,3,4,5,6)],[(2,1,3,4,5,6)],[(3,1,2,4,5,6)],[(4,1,2,3,5,6)],[(5,1,2,3,4,6)],[(6,1,2,3,4,5)]],
+    #   [[(1,2,3,4,5,6),(2,1,3,4,5,6),(3,1,2,4,5,6)],[(4,1,2,3,5,6),(5,1,2,3,4,6)],[(6,1,2,3,4,5)]]
+    ]
+    # fmt: on
+
+    # print(possibilities)
 
     # For each possible partition
+    totalRanking = []  # testing purposes
     for n, i in enumerate(possibilities):
         # For each autonomy boundary in partition i
         for j in i:
@@ -116,6 +167,7 @@ def coded(graph=None):
             # Old formula => discard internal connections
             calcOld.addBoundary(len(j), exConn, 0)
             # New formula => track internal connections
+            # calcNew.addBoundary(len(j), exConn, 0)
             calcNew.addBoundary(len(j), exConn, inConn)
         # print("-------------------")
 
@@ -125,10 +177,11 @@ def coded(graph=None):
         elif calcOld.newFormulaResult() == minOld:
             numOld.append(n)
 
-        if minNew == None or calcNew.newFormulaResult() < minNew:
-            minNew = calcNew.newFormulaResult()
+        totalRanking += [(n + 1, round(calcNew.newFormulaAltResult(True), 2))]
+        if minNew == None or calcNew.newFormulaAltResult() < minNew:
+            minNew = calcNew.newFormulaAltResult()
             numNew = [n]
-        elif calcNew.newFormulaResult() == minNew:
+        elif calcNew.newFormulaAltResult() == minNew:
             numNew.append(n)
 
         calcOld.reset()
@@ -150,7 +203,7 @@ def coded(graph=None):
     # print(partitions)
     print("---------Old Formula---------")
     print(
-        f"Optimal partition number(s): \n\t{numOld}\nComplexity: \n\t{round(minOld,2)}\nPartition(s):",
+        f"Optimal partition number(s): \n\t{[x+1 for x in numOld]}\nComplexity: \n\t{round(minOld,2)}\nPartition(s):",
         end="",
     )
     for outcomes in range(len(partitionsOld)):
@@ -159,14 +212,17 @@ def coded(graph=None):
         print("\n--------", end="")
     print("-New Formula---------")
     print(
-        f"Optimal partition number(s): \n\t{numNew}\nComplexity: \n\t{round(minNew,2)}\nPartition(s):",
+        f"Optimal partition number(s): \n\t{[x+1 for x in numNew]}\nComplexity: \n\t{round(minNew,2)}\nPartition(s):",
         end="",
     )
     for outcomes in range(len(partitionsNew)):
         print("\n\t", end="")
         print(*partitionsNew[outcomes], sep="\n\t", end="")
+        # print(f"TotalRanking:\n{totalRanking}", end="")
         print("\n--------", end="")
 
+    print(f"\nTotalRanking:\n{sorted(totalRanking, key=lambda tup: tup[1])}")
+    print("Optimal: [3,2,6,4,1,5]")
     print(f"\nOut of {len(possibilities)} possibilities\n")
 
     if (
